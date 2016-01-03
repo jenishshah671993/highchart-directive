@@ -1,0 +1,86 @@
+<html>
+    <head>
+<script src="http://ajax.googleapis.com/ajax/libs/angularjs/1.0.3/angular.min.js"></script>
+<script src="http://code.highcharts.com/highcharts.js"></script>
+<script src="http://code.highcharts.com/highcharts-more.js"></script>
+<script src="http://code.highcharts.com/modules/heatmap.js"></script>    
+    </head>
+    <body>
+<div ng-app="myApp">
+    
+  <div ng-controller="MyCtrl">
+<!--    <div class="heat-map" items="limitedIdeas" xaxis="xAxis" yaxis="yAxis"></div>-->
+<div class="high-chart" type="chartType"></div>
+      <div>
+      <button ng-click="pie()">pie</button>
+	<button ng-click="line()">line</button>
+      </div>
+  </div>
+</div>
+        <script>
+        function MyCtrl($scope, limitToFilter) {
+ 
+			$scope.chartType="column";
+						$scope.pie=function()
+						{
+						$scope.chartType="pie";
+						}
+			$scope.line=function()
+            			{
+						$scope.chartType="line";
+						}
+}
+
+angular.module('myApp', [])
+  .directive('highChart', function () {
+  return {
+    restrict: 'C',
+    replace: true,
+    scope: {
+      type:'='
+    },
+    controller: function ($scope, $element, $attrs) {
+    },
+    template: '<div id="container" style="margin: 0 auto">not working</div>',
+    link: function (scope, element, attrs) {
+      var chart = new Highcharts.Chart({
+        chart: {
+          renderTo: 'container',
+        },
+        title: {
+            text: 'Retention Rate'
+        },
+        xAxis: {
+            categories: ['a','b','c']
+        },
+        yAxis: {
+            categories: [],
+            title: null
+        },
+        series: [{
+            type:scope.type,
+            name: 'Retention Rate',
+            showInLegend:true,
+            data:[1,2,3]   
+        }]
+      });
+      scope.$watch("type", function (newValue) {
+ chart.series[0].update({
+            type: newValue
+        });
+      }, true);
+
+       /* scope.$watch("xaxis", function (newValue) {
+        chart.xAxis[0].setCategories(newValue, true);
+      }, true);
+         scope.$watch("yaxis", function (newValue) {
+            
+        chart.yAxis[0].setCategories(newValue, true);
+      }, true);*/
+      
+    }
+  }
+});
+        </script>
+    </body>
+</html>

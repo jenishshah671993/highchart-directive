@@ -2,7 +2,7 @@ angular.module('myApp', [])
   .directive('highChart', function () {
   return {
     restrict: 'C',
-    replace: true,
+    replace: false,
     scope: {
       type:'=',
 	  xaxis:'=',
